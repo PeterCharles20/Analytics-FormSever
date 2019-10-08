@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    </head>
+<body>
+
+    <div  ng-controller="mainCtrl">
+        <button ng-click="drawChart()">Refresh</button>
+        <!--Div that will hold the pie chart-->
+        <h1>Responses</h1>
+        <div ng-repeat="x in questions">
+            <div ng-attr-id="{{ 'object-' + $index}}">
+
+            </div>
+            
+        </div>
+
+        <div id="chartdiv"></div>
+        
+    </div>
+
+
+    <script>
+
+        /* Controllers */
+        google.load('visualization', '1', {
+            packages: ['corechart']
+        });
+
+        google.setOnLoadCallback(function() {
+            angular.bootstrap(document.body, ['analyticsApplication']);
+        });
+
+
+        var app = angular.module('analyticsApplication', []);
+
+        app.controller('mainCtrl', function ($scope, $http) {
+
+            let obj = {};
+            let yesCount = 0;
+            let noCount = 0;
+
+            $http.get("/responses").then(function (response) {
+                console.log(response);
+                $scope.questions = response.data.Questions;
+                obj = $scope.questions;
+                
+            }).catch(function(err){
+                alert(err.message);
+            });
+
+            $scope.drawChart = function () {
+
+                obj.forEach((item, index, array) => {
+                    // Create the data table.
+                    console.log('Start');
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Option');
+                    data.addColumn('number', 'size');
+
+                    sortAnswers(index);
+              
+                    data.addRows([
+                        ['Yes', yesCount],
+                        ['No', noCount],
+                    ]);
+
+                    // Set chart options
+                    var options = {'title': obj[index].Name,
+                       'width':600,
+                       'height':500};
+
+                    var chart = new google.visualization.PieChart(document.getElementById('object-' + index));
+
+                    chart.draw(data, options);
+                });
+                    
+            }
+
+            let sortAnswers = function(index) {
+                yesCount = 0;
+                noCount = 0;
+
+                obj[index].Responses.forEach(element => {
+                    if(element == "Yes") {
+                        yesCount++;
+                    } else {
+                        noCount++;
+                    }
+                });
+                
+            }
+        
+        });
+    </script>
+
+</body>
+
+</html>
