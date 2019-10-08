@@ -3,50 +3,28 @@
         {
             "Name": "Have you known anyone with cancer",
             "options": [
-                "Yes",
-                "No"
-            ],
-            "Responses": [
-                "Yes",
-                "No",
-                "Yes",
-                "Yes",
-                "No",
-                "Yes",
-                "Yes",
-                "No",
-                "Yes",
-                "Yes"
+              {
+                "option": "Yes",
+                "count": 32
+              },
+              {
+                "option": "No",
+                "count": 8
+              }
             ]
         },
         {
             "Name":"Are you related to anyone that has recived radiation theropy",
-            "options": [
-                "Yes",
-                "No"
-            ],
-            "Responses": [
-                "Yes",
-                "No",
-                "Yes",
-                "Yes",
-                "No",
-                "Yes",
-                "Yes",
-                "No",
-                "Yes",
-                "Yes",
-                "No",
-                "No",
-                "No",
-                "Yes",
-                "No",
-                "Yes",
-                "Yes",
-                "No",
-                "Yes",
-                "Yes"
-            ]
+          "options": [
+            {
+              "option": "Yes",
+              "count": 32
+            },
+            {
+              "option": "No",
+              "count": 17
+            }
+          ]
         }
     ]
 }

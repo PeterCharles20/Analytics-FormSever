@@ -7,7 +7,7 @@
   * Define modules
   */
 const express = require('express');
-const obj = require("../Analytics-Application/responses.json");
+const obj = require("../Analytics-FormSever/responses.json");
 
 let app = express();
 

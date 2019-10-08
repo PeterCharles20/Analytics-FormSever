@@ -55,13 +55,13 @@
 
                 obj.forEach((item, index, array) => {
                     // Create the data table.
-                    console.log('Start');
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Option');
                     data.addColumn('number', 'size');
 
-                    sortAnswers(index);
-              
+                    yesCount = obj[index].options[0].count;
+                    noCount = obj[index].options[1].count;
+
                     data.addRows([
                         ['Yes', yesCount],
                         ['No', noCount],
@@ -77,20 +77,6 @@
                     chart.draw(data, options);
                 });
                     
-            }
-
-            let sortAnswers = function(index) {
-                yesCount = 0;
-                noCount = 0;
-
-                obj[index].Responses.forEach(element => {
-                    if(element == "Yes") {
-                        yesCount++;
-                    } else {
-                        noCount++;
-                    }
-                });
-                
             }
         
         });
