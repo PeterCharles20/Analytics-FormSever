@@ -17,12 +17,10 @@
     <div  ng-controller="mainCtrl"><div class="bd-example">
         <div class="container" style="text-align: center"> 
                 <!-- Button triggers 4 chart functions -->
-                <button class="btn btn-primary" ng-click="drawChart1(); drawChart2(); drawChart3(); drawChart4()" onclick="startTime()">Show Charts</button>
+                <button class="btn btn-primary" ng-click="drawChart1(); drawChart2(); drawChart3(); drawChart4()">Show Charts</button>
                 <h1>Responses</h1>
                 <!-- Display date -->
                 <div id="txt"></div>
-                <!-- Display total -->
-                <p>Total submissions:</p>
                 <p id="demo"></p>
 
                 <!-- Chart 1 -->
@@ -89,8 +87,6 @@
             // Compares question name
             var question;
 
-            // Total submissions
-            var total = 0;
 
             $http.get("/responses").then(function (response) {
                 console.log(response);
@@ -115,7 +111,6 @@
                     question = obj[index].Name;
                     if(question == "What is your age?")
                     {
-                        
                         a1 = obj[index].options[0].count;
                         a2 = obj[index].options[1].count;
                         a3 = obj[index].options[2].count;
@@ -258,7 +253,6 @@
                     }
                 });    
             }
-
         });
     </script>
     <script>
