@@ -47,9 +47,9 @@
 
         app.controller('mainCtrl', function ($scope, $http) {
 
-            let obj = {};
-            let rowOptions = [];
-            let columnOptions = [];
+            let obj = {}; // Stores all the questions 
+            let rowOptions = []; // Stores row options
+            let columnOptions = []; // Stores column options
 
             // Compares question name
             var question;
@@ -57,14 +57,16 @@
             // Load Bar charts
             google.charts.load('current', {'packages':['bar']});
 
+            // HTTP GET request to backend.
+            // Retrieves JSON obj of questions
             $http.get("/responses").then(function (response) {
                 console.log(response);
                 $scope.questions = response.data.Questions;
-                obj = $scope.questions;
-                    
+                obj = $scope.questions; 
             }).then(() => {
+                // Sorts row and column options
                 obj.forEach((item, index, array) => {
-                    columnOptions[index] = item.options
+                    columnOptions[index] = item.options; // FIX ME BY ADDING EXTRA FIELD IN JSON
                     rowOptions[index] = item.options.map(element => {
                         return [element.option, element.count];
                     });
@@ -74,64 +76,58 @@
                 alert(err.message);
             });
 
+            // Draws a chart.
             $scope.drawChart = function () {
                 obj.forEach((item, index, array) => {
                     // Create the data table.
                     var data = new google.visualization.DataTable();
+
+                    // TO DO: Fix this
                     data.addColumn('string', 'Option');
                     data.addColumn('number', 'size');
                     
+                    // Define row options
                     rowOptions[index].forEach(element => {
                         console.log(element);
                         data.addRow(element);
                     });
-
-                    console.log(rowOptions);
                     
                     // // Set chart options
                     var options = {'title': obj[index].Name,
                        'width':600,
                        'height':500};
 
-                    var chart
+                    var chart;
 
-                    switch(index) {
-                        case 0: 
-                            chart = new google.visualization.PieChart(document.getElementById('object-' + index));
-                            chart.draw(data, options);
-                            break;
-                        case 1:
-                            chart = new google.charts.Bar(document.getElementById('object-' + index));
-                            chart.draw(data, google.charts.Bar.convertOptions(options));
-                            break;
-                        case 2:
-                            chart = new google.charts.Bar(document.getElementById('object-' + index));
-                            chart.draw(data, google.charts.Bar.convertOptions(options));
-                            break;
-                        case 3:
-                             chart = new google.visualization.PieChart(document.getElementById('object-' + index));
-                             chart.draw(data, options);
+                    // Only displaying four questions 
+                    if(index == 0 || index == 3) {
+                        chart = new google.visualization.PieChart(document.getElementById('object-' + index));
+                        chart.draw(data, options);
+                    } else if (index == 1 || index == 2){
+                        chart = new google.charts.Bar(document.getElementById('object-' + index));
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                    } else {
+                        console.log("Invalid Index");
                     }
-                    
                 });       
             }
         });
     </script>
     <script>
         function startTime() {
-        var today = new Date();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-        document.getElementById('txt').innerHTML =
-        h + ":" + m + ":" + s;
-        var t = setTimeout(startTime, 500);
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('txt').innerHTML =
+            h + ":" + m + ":" + s;
+            var t = setTimeout(startTime, 500);
         }
         function checkTime(i) {
-        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-        return i;
+            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+            return i;
         }
     </script>
 
