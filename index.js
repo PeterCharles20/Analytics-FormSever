@@ -8,8 +8,11 @@
   */
 const express = require('express');
 const obj = require("../Analytics-FormSever/responses.json");
+const cors = require('cors');
 
 let app = express();
+
+app.use(cors())
 
 
 //Serve static files
