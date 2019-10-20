@@ -1,7 +1,57 @@
 {
     "Questions":[
         {
-            "Name": "Have you known anyone with cancer",
+            "Name": "What is your age?",
+            "options": [
+              {
+                "option": "Below 18",
+                "count": 32
+              },
+              {
+                "option": "19-24",
+                "count": 18
+              },
+              {
+                "option": "25-34",
+                "count": 20
+              },
+              {
+                "option": "35-44",
+                "count": 12
+              },
+              {
+                "option": "45-54",
+                "count": 4
+              },
+              {
+                "option": "55 above",
+                "count": 2
+              }
+            ]
+        },
+        {
+            "Name":"How far away do you live to the nearest hospital?",
+          "options": [
+            {
+              "option": "Less than 15 minutes",
+              "count": 2
+            },
+            {
+              "option": "15-30 minutes",
+              "count": 4
+            },
+            {
+              "option": "30 minutes-1 hour",
+              "count": 17
+            },
+            {
+              "option": "More than 1 hour",
+              "count": 6
+            }
+          ]
+        },
+        {
+            "Name": "Have you known anyone who has had cancer?",
             "options": [
               {
                 "option": "Yes",
@@ -14,17 +64,21 @@
             ]
         },
         {
-            "Name":"Are you related to anyone that has recived radiation theropy",
-          "options": [
-            {
-              "option": "Yes",
-              "count": 32
-            },
-            {
-              "option": "No",
-              "count": 17
-            }
-          ]
+            "Name": "Do you find value in a software that provides patients with the ability to update their quality of life for doctors to monitor?",
+            "options": [
+              {
+                "option": "Yes",
+                "count": 32
+              },
+              {
+                "option": "No",
+                "count": 1
+              },
+              {
+                "option": "Not sure",
+                "count": 11
+              }
+            ]
         }
     ]
 }

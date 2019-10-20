@@ -1,26 +1,64 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <link rel="stylesheet" href="index.css" type="text/css">
+            <link rel="stylesheet" href="jquery.js">
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
     </head>
 <body>
+    <nav class="navbar navbar-light">
+        <span id="logo" class="navbar-brand mb-0 h1">PatientPal</span>
+    </nav>
 
-    <div  ng-controller="mainCtrl">
-        <button ng-click="drawChart()">Refresh</button>
-        <!--Div that will hold the pie chart-->
-        <h1>Responses</h1>
-        <div ng-repeat="x in questions">
-            <div ng-attr-id="{{ 'object-' + $index}}">
+    <div  ng-controller="mainCtrl"><div class="bd-example">
+        <div class="container" style="text-align: center"> 
+                <!-- Button triggers 4 chart functions -->
+                <button class="btn btn-primary" ng-click="drawChart1(); drawChart2(); drawChart3(); drawChart4()" onclick="startTime()">Show Charts</button>
+                <h1>Responses</h1>
+                <!-- Display date -->
+                <div id="txt"></div>
+                <!-- Display total -->
+                <p>Total submissions:</p>
+                <p id="demo"></p>
 
-            </div>
-            
+                <!-- Chart 1 -->
+                <div class="container chart">
+                    <div ng-repeat="x in questions" class="d-block w-100">
+                        <div ng-repeat="x in questions" class="d-block w-100">
+                            <div ng-attr-id="{{ '1object-' + $index}}"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Chart 2 -->
+                <div class="container chart">
+                    <div ng-repeat="x in questions" class="d-block w-100">
+                        <div ng-repeat="x in questions" class="d-block w-100">
+                            <div ng-attr-id="{{ '2object-' + $index}}"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Chart 3 -->
+                <div class="container chart">
+                    <div ng-repeat="x in questions" class="d-block w-100">
+                        <div ng-repeat="x in questions" class="d-block w-100">
+                            <div ng-attr-id="{{ '3object-' + $index}}"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Chart 4 -->
+                <div class="container chart">
+                    <div ng-repeat="x in questions" class="d-block w-100">
+                        <div ng-repeat="x in questions" class="d-block w-100">
+                            <div ng-attr-id="{{ '4object-' + $index}}"></div>
+                        </div>
+                    </div>
+                </div>
         </div>
-
-        <div id="chartdiv"></div>
-        
     </div>
-
 
     <script>
 
@@ -39,8 +77,20 @@
         app.controller('mainCtrl', function ($scope, $http) {
 
             let obj = {};
-            let yesCount = 0;
-            let noCount = 0;
+            // Options for 1st question
+            let a1, a2, a3, a4, a5, a6 = 0;
+            // Options for 2nd question
+            let b1, b2, b3, b4 = 0;
+            // Options for 3rd question
+            let c1, c2 = 0;
+            // Options for 3th question
+            let d1, d2, d3 = 0;
+
+            // Compares question name
+            var question;
+
+            // Total submissions
+            var total = 0;
 
             $http.get("/responses").then(function (response) {
                 console.log(response);
@@ -50,38 +100,191 @@
             }).catch(function(err){
                 alert(err.message);
             });
+            
+            // Load Bar charts
+            google.charts.load('current', {'packages':['bar']});
 
-            $scope.drawChart = function () {
+            $scope.drawChart1 = function () {
 
-                obj.forEach((item, index, array) => {
+                obj.forEach((item, index, array) =>
+                {
                     // Create the data table.
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Option');
                     data.addColumn('number', 'size');
+                    question = obj[index].Name;
+                    if(question == "What is your age?")
+                    {
+                        
+                        a1 = obj[index].options[0].count;
+                        a2 = obj[index].options[1].count;
+                        a3 = obj[index].options[2].count;
+                        a4 = obj[index].options[3].count;
+                        a5 = obj[index].options[4].count;
 
-                    yesCount = obj[index].options[0].count;
-                    noCount = obj[index].options[1].count;
+                        data.addRows([
+                            ['below 18', a1],
+                            ['19-24', a2],
+                            ['25-34', a3],
+                            ['35-44', a4],
+                            ['45-54', a5],
+                            ['55 above', a6]
+                        ]);
 
-                    data.addRows([
-                        ['Yes', yesCount],
-                        ['No', noCount],
-                    ]);
+                        // Set chart options
+                        var options = {'title': obj[0].Name,
+                        'width':600,
+                        'height':500};
 
-                    // Set chart options
-                    var options = {'title': obj[index].Name,
-                       'width':600,
-                       'height':500};
+                        var chart = new google.visualization.PieChart(document.getElementById('1object-' + index));
 
-                    var chart = new google.visualization.PieChart(document.getElementById('object-' + index));
-
-                    chart.draw(data, options);
-                });
-                    
+                        chart.draw(data, options);
+                    }
+                });    
             }
-        
+            $scope.drawChart2 = function () {
+
+                obj.forEach((item, index, array) =>
+                {
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Option');
+                    data.addColumn('number', 'size');
+                    question = obj[index].Name;
+                    
+                    if(question == "How far away do you live to the nearest hospital?")
+                    {
+                        b1 = obj[index].options[0].count;
+                        b2 = obj[index].options[1].count;
+                        b3 = obj[index].options[2].count;
+                        b4 = obj[index].options[3].count;
+
+                        data.addRows([
+                            ['Less than 15 minutes', b1],
+                            ['15-30 minutes', b2],
+                            ['30 minutes-1 hour', b3],
+                            ['More than 1 hour', b4]
+                        ]);
+
+                        var data = google.visualization.arrayToDataTable([
+                        ['Age', 'Less than 15 minutes', '15-30 minutes', '30 minutes-1 hour', 'More than 1 hour'],
+                        ['below 18', 3, 6, 9, 9],
+                        ['19-24', 2, 5, 8, 3],
+                        ['25-34', 8, 2, 6, 7],
+                        ['35-44', 8, 2, 6, 7],
+                        ['45-54', 8, 2, 6, 7],
+                        ['55 above', 8, 2, 6, 7]
+                        ]);
+
+                        // Set chart options
+                        var options = {'title': obj[1].Name,
+                        'width':600,
+                        'height':500};
+
+                        var chart = new google.charts.Bar(document.getElementById('2object-' + index));
+
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                    }
+                });    
+            }
+            $scope.drawChart3 = function () {
+
+                obj.forEach((item, index, array) =>
+                {
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Option');
+                    data.addColumn('number', 'size');
+                    question = obj[index].Name;
+                    if(question == "Have you known anyone who has had cancer?")
+                    {
+                        c1 = obj[index].options[0].count;
+                        c2 = obj[index].options[1].count;
+
+                        data.addRows([
+                            ['Yes', c1],
+                            ['No', c2]
+                        ]);
+
+                        var data = google.visualization.arrayToDataTable([
+                        ['Age', 'Yes', 'No'],
+                        ['below 18', 3, 6],
+                        ['19-24', 2, 5],
+                        ['25-34', 2, 5],
+                        ['35-44', 2, 5],
+                        ['45-54', 2, 5],
+                        ['55 above', 2, 5]
+                        ]);
+
+                        // Set chart options
+                        var options = {'title': obj[2].Name,
+                        'width':600,
+                        'height':500};
+
+                        var chart = new google.charts.Bar(document.getElementById('3object-' + index));
+
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                    }
+                });    
+            }
+            $scope.drawChart4 = function () {
+                obj.forEach((item, index, array) =>
+                {
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Option');
+                    data.addColumn('number', 'size');
+                    question = obj[index].Name;
+                    if(question == "Do you find value in a software that provides patients with the ability to update their quality of life for doctors to monitor?")
+                    {
+                        d1 = obj[index].options[0].count;
+                        d2 = obj[index].options[1].count;
+                        d3 = obj[index].options[2].count;
+
+                        data.addRows([
+                            ['Yes', a1],
+                            ['No', a2],
+                            ['Not Sure', a3]
+                        ]);
+
+                        // Set chart options
+                        var options = {'title': obj[3].Name,
+                        'width':600,
+                        'height':500};
+
+                        var chart = new google.visualization.PieChart(document.getElementById('4object-' + index));
+
+                        chart.draw(data, options);
+                    }
+                });    
+            }
+
         });
+    </script>
+    <script>
+        function startTime() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('txt').innerHTML =
+        h + ":" + m + ":" + s;
+        var t = setTimeout(startTime, 500);
+        }
+        function checkTime(i) {
+        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+        return i;
+        }
     </script>
 
 </body>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </html>
