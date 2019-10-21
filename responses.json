@@ -31,7 +31,7 @@
         },
         {
             "Name":"How far away do you live to the nearest hospital?",
-          "options": [
+          "b18options": [
             {
               "option": "Less than 15 minutes",
               "count": 2
@@ -46,20 +46,232 @@
             },
             {
               "option": "More than 1 hour",
-              "count": 6
+              "count": 16
+            }
+          ],
+          "b1924options": [
+            {
+              "option": "Less than 15 minutes",
+              "count": 7
+            },
+            {
+              "option": "15-30 minutes",
+              "count": 2
+            },
+            {
+              "option": "30 minutes-1 hour",
+              "count": 5
+            },
+            {
+              "option": "More than 1 hour",
+              "count": 12
+            }
+          ],
+          "b2534options": [
+            {
+              "option": "Less than 15 minutes",
+              "count": 7
+            },
+            {
+              "option": "15-30 minutes",
+              "count": 2
+            },
+            {
+              "option": "30 minutes-1 hour",
+              "count": 5
+            },
+            {
+              "option": "More than 1 hour",
+              "count": 12
+            }
+          ],
+          "b3544options": [
+            {
+              "option": "Less than 15 minutes",
+              "count": 7
+            },
+            {
+              "option": "15-30 minutes",
+              "count": 2
+            },
+            {
+              "option": "30 minutes-1 hour",
+              "count": 5
+            },
+            {
+              "option": "More than 1 hour",
+              "count": 12
+            }
+          ],
+          "b4554options": [
+            {
+              "option": "Less than 15 minutes",
+              "count": 7
+            },
+            {
+              "option": "15-30 minutes",
+              "count": 2
+            },
+            {
+              "option": "30 minutes-1 hour",
+              "count": 5
+            },
+            {
+              "option": "More than 1 hour",
+              "count": 12
+            }
+          ],
+          "b55aboveoptions": [
+            {
+              "option": "Less than 15 minutes",
+              "count": 7
+            },
+            {
+              "option": "15-30 minutes",
+              "count": 2
+            },
+            {
+              "option": "30 minutes-1 hour",
+              "count": 5
+            },
+            {
+              "option": "More than 1 hour",
+              "count": 12
             }
           ]
         },
         {
             "Name": "Have you known anyone who has had cancer?",
-            "options": [
+            "c18options": [
               {
-                "option": "Yes",
-                "count": 32
+                "option": "0",
+                "count": 1
               },
               {
-                "option": "No",
-                "count": 8
+                "option": "1",
+                "count": 2
+              },
+              {
+                "option": "2",
+                "count": 6
+              },
+              {
+                "option": "3",
+                "count": 4
+              },
+              {
+                "option": "4+",
+                "count": 3
+              }
+            ],
+            "c1924options": [
+              {
+                "option": "0",
+                "count": 1
+              },
+              {
+                "option": "1",
+                "count": 2
+              },
+              {
+                "option": "2",
+                "count": 6
+              },
+              {
+                "option": "3",
+                "count": 4
+              },
+              {
+                "option": "4+",
+                "count": 3
+              }
+            ],
+            "c2534options": [
+              {
+                "option": "0",
+                "count": 1
+              },
+              {
+                "option": "1",
+                "count": 2
+              },
+              {
+                "option": "2",
+                "count": 6
+              },
+              {
+                "option": "3",
+                "count": 4
+              },
+              {
+                "option": "4+",
+                "count": 3
+              }
+            ],
+            "c3544options": [
+              {
+                "option": "0",
+                "count": 1
+              },
+              {
+                "option": "1",
+                "count": 2
+              },
+              {
+                "option": "2",
+                "count": 6
+              },
+              {
+                "option": "3",
+                "count": 4
+              },
+              {
+                "option": "4+",
+                "count": 3
+              }
+            ],
+            "c4554options": [
+              {
+                "option": "0",
+                "count": 1
+              },
+              {
+                "option": "1",
+                "count": 2
+              },
+              {
+                "option": "2",
+                "count": 6
+              },
+              {
+                "option": "3",
+                "count": 4
+              },
+              {
+                "option": "4+",
+                "count": 3
+              }
+            ],
+            "c55aboveoptions": [
+              {
+                "option": "0",
+                "count": 1
+              },
+              {
+                "option": "1",
+                "count": 2
+              },
+              {
+                "option": "2",
+                "count": 6
+              },
+              {
+                "option": "3",
+                "count": 4
+              },
+              {
+                "option": "4+",
+                "count": 3
               }
             ]
         },
