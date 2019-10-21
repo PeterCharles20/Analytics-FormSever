@@ -66,11 +66,15 @@
             }).then(() => {
                 // Sorts row and column options
                 obj.forEach((item, index, array) => {
-                    columnOptions[index] = item.options; // FIX ME BY ADDING EXTRA FIELD IN JSON
-                    rowOptions[index] = item.options.map(element => {
-                        return [element.option, element.count];
+                    columnOptions[index] = item.columns.map(element => {
+                        return element
                     });
-                })  
+                    rowOptions[index] = item.rows.map(element => {
+                        return element;
+                    });
+                });
+                console.log(rowOptions);
+                  
             })
             .catch(function(err){
                 alert(err.message);
@@ -82,9 +86,10 @@
                     // Create the data table.
                     var data = new google.visualization.DataTable();
 
-                    // TO DO: Fix this
-                    data.addColumn('string', 'Option');
-                    data.addColumn('number', 'size');
+                    // Define row options
+                    columnOptions[index].forEach(element => {
+                        data.addColumn(element[0], element[1]);
+                    });
                     
                     // Define row options
                     rowOptions[index].forEach(element => {

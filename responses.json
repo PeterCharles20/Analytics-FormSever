@@ -2,82 +2,53 @@
     "Questions":[
         {
             "Name": "What is your age?",
-            "options": [
-              {
-                "option": "Below 18",
-                "count": 32
-              },
-              {
-                "option": "19-24",
-                "count": 18
-              },
-              {
-                "option": "25-34",
-                "count": 20
-              },
-              {
-                "option": "35-44",
-                "count": 12
-              },
-              {
-                "option": "45-54",
-                "count": 4
-              },
-              {
-                "option": "55 above",
-                "count": 2
-              }
+            "columns": [
+                  ["string", "option"],
+                  ["number", "count"]
+            ],
+            "rows": [
+                ["Below 18", 32],
+                ["19-24", 32],
+                ["25-34", 32],
+                ["35-44", 32],
+                ["45-54", 32],
+                ["55 above", 32]
             ]
         },
         {
             "Name":"How far away do you live to the nearest hospital?",
-          "options": [
-            {
-              "option": "Less than 15 minutes",
-              "count": 2
-            },
-            {
-              "option": "15-30 minutes",
-              "count": 4
-            },
-            {
-              "option": "30 minutes-1 hour",
-              "count": 17
-            },
-            {
-              "option": "More than 1 hour",
-              "count": 6
-            }
-          ]
+            "columns": [
+              ["string", "Option"],
+              ["number", "count"]
+            ],
+            "rows": [
+                ["Less than 15 minutes", 2],
+                ["15-30 minutes", 2],
+                ["30 minutes-1 hour", 2],
+                ["More than 1 hour", 2]
+            ]
         },
         {
             "Name": "Have you known anyone who has had cancer?",
-            "options": [
-              {
-                "option": "Yes",
-                "count": 32
-              },
-              {
-                "option": "No",
-                "count": 8
-              }
+            "columns": [
+              ["string", "Option"],
+              ["number", "count"]
+            ],
+            "rows": [
+                ["Yes",32],
+                ["No", 8]
             ]
         },
         {
             "Name": "Do you find value in a software that provides patients with the ability to update their quality of life for doctors to monitor?",
-            "options": [
-              {
-                "option": "Yes",
-                "count": 32
-              },
-              {
-                "option": "No",
-                "count": 1
-              },
-              {
-                "option": "Not sure",
-                "count": 11
-              }
+            "columns": [
+                ["string", "option"],
+                ["number", "count"]
+              ],
+            "rows": [
+                ["Yes",32],
+                ["No",1],
+                ["Not Sure",11]
             ]
         }
     ]
