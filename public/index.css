@@ -9,6 +9,12 @@ body
 	box-shadow: 0px 1px 6px #999;
 	margin-bottom: 40px;
 }
+#title
+{
+	color: white;
+	font-size: 30px;
+	font-weight: lighter;
+}
 #logo
 {
 	font-size: 30px;
@@ -21,8 +27,4 @@ body
 .container.chart
 {
 	margin-bottom: 40px;
-}
-.d-block
-{
-	
 }

@@ -2,6 +2,7 @@
 <html>
     <head>
             <link rel="stylesheet" href="index.css" type="text/css">
+            <link rel="stylesheet" href="jquery.js">
             <!-- Bootstrap CSS -->
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
             <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -9,51 +10,66 @@
 
     </head>
 <body>
+<!-- Image and text -->
     <nav class="navbar navbar-light">
-        <span id="logo" class="navbar-brand mb-0 h1">PatientPal</span>
+        <a class="navbar-brand" href="#">
+            <img src="assets/logo.png" width="40" height="40" class="d-inline-block align-top" alt="">
+            <span class="navbar-brand mb-0 h1" id="title">PatientPal</span>
+        </a>
     </nav>
 
     <div  ng-controller="mainCtrl"><div class="bd-example">
         <div class="container" style="text-align: center"> 
-                <!-- Button triggers 4 chart functions -->
-                <button class="btn btn-primary" ng-click="drawChart1(); drawChart2(); drawChart3(); drawChart4()" onclick="startTime()">Show Charts</button>
-                <h1>Responses</h1>
+            <button class="btn btn-primary" ng-click="drawChart()" onclick="startTime()">Refresh</button>
+            <br /> <br />
                 <!-- Display date -->
                 <div id="txt"></div>
-                <p id="demo"></p>
+                <br />
+                <!-- Total Submissions Div -->
+                <div>
+                    <p>Total Submissions:</p>
+                </div>
+                
+                <h1>Responses</h1>
 
-                <!-- Chart 1 -->
-                <div class="container chart">
-                    <div ng-repeat="x in questions" class="d-block w-100">
-                        <div ng-repeat="x in questions" class="d-block w-100">
-                            <div ng-attr-id="{{ '1object-' + $index}}"></div>
-                        </div>
-                    </div>
+                <!-- Charts -->
+                <div ng-repeat="x in questions">
+                    <div ng-attr-id="{{ 'object-' + $index}}">
+                    </div>                    
                 </div>
-                <!-- Chart 2 -->
-                <div class="container chart">
-                    <div ng-repeat="x in questions" class="d-block w-100">
-                        <div ng-repeat="x in questions" class="d-block w-100">
-                            <div ng-attr-id="{{ '2object-' + $index}}"></div>
-                        </div>
+
+                <!-- Carousel -->
+                <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                          
+                      </div>
+                      <div class="carousel-item">
+                          
+                      </div>
+                      <div class="carousel-item">
+                          
+                      </div>
+                      <div class="carousel-item">
+                          
+                      </div>
                     </div>
-                </div>
-                <!-- Chart 3 -->
-                <div class="container chart">
-                    <div ng-repeat="x in questions" class="d-block w-100">
-                        <div ng-repeat="x in questions" class="d-block w-100">
-                            <div ng-attr-id="{{ '3object-' + $index}}"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Chart 4 -->
-                <div class="container chart">
-                    <div ng-repeat="x in questions" class="d-block w-100">
-                        <div ng-repeat="x in questions" class="d-block w-100">
-                            <div ng-attr-id="{{ '4object-' + $index}}"></div>
-                        </div>
-                    </div>
-                </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                </div> -->
+
+                <div id="chartdiv"></div>
         </div>
     </div>
 
@@ -68,288 +84,96 @@
             angular.bootstrap(document.body, ['analyticsApplication']);
         });
 
-
         var app = angular.module('analyticsApplication', []);
 
         app.controller('mainCtrl', function ($scope, $http) {
 
-            let obj = {};
-            // Options for 1st question
-            let a1, a2, a3, a4, a5, a6 = 0;
-
-            // Options for 2nd question
-            let b18a, b18b, b18c, b18d = 0; // 18above
-            let b1924a, b1924b, b1924c, b1924d = 0; // 19-24
-            let b2534a, b2534b, b2534c, b2534d = 0; // 25-34
-            let b3544a, b3544b, b3544c, b3544d = 0; // 35-44 
-            let b4554a, b4554b, b4554c, b4554d = 0; // 45-54
-            let b55a, b55b, b55c, b55d = 0; // 55above
-
-            // Options for 3rd question
-            let c18a, c18b, c18c, c18d, c18e = 0; // 18above
-            let c1924a, c1924b, c1924c, c1924d, c1924e = 0; // 19-24
-            let c2534a, c2534b, c2534c, c2534d, c2534e = 0; // 25-34
-            let c3544a, c3544b, c3544c, c3544d, c3544e = 0; // 35-44
-            let c4554a, c4554b, c4554c, c4554d, c4554e = 0; // 45-54
-            let c55a, c55b, c55c, c55d, c55e = 0; // 55above
-
-            // Options for 4th question
-            let d1, d2, d3 = 0;
+            let obj = {}; // Stores all the questions 
+            let rowOptions = []; // Stores row options
+            let columnOptions = []; // Stores column options
 
             // Compares question name
             var question;
-
-
-            $http.get("/responses").then(function (response) {
-                console.log(response);
-                $scope.questions = response.data.Questions;
-                obj = $scope.questions;
-                
-            }).catch(function(err){
-                alert(err.message);
-            });
             
             // Load Bar charts
             google.charts.load('current', {'packages':['bar']});
 
-            $scope.drawChart1 = function () {
-                obj.forEach((item, index, array) =>
-                {
+            // HTTP GET request to backend.
+            // Retrieves JSON obj of questions
+            $http.get("/responses").then(function (response) {
+                console.log(response);
+                $scope.questions = response.data.Questions;
+                obj = $scope.questions; 
+            }).then(() => {
+                // Sorts row and column options
+                obj.forEach((item, index, array) => {
+                    columnOptions[index] = item.columns.map(element => {
+                        return element
+                    });
+                    rowOptions[index] = item.rows.map(element => {
+                        return element;
+                    });
+                });
+                console.log(rowOptions);
+                  
+            })
+            .catch(function(err){
+                alert(err.message);
+            });
+
+            // Draws a chart.
+            $scope.drawChart = function () {
+                obj.forEach((item, index, array) => {
                     // Create the data table.
                     var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Option');
-                    data.addColumn('number', 'size');
-                    question = obj[index].Name;
-                    if(question == "What is your age?")
-                    {
-                        a1 = obj[index].options[0].count;
-                        a2 = obj[index].options[1].count;
-                        a3 = obj[index].options[2].count;
-                        a4 = obj[index].options[3].count;
-                        a5 = obj[index].options[4].count;
 
-                        data.addRows([
-                            ['below 18', a1],
-                            ['19-24', a2],
-                            ['25-34', a3],
-                            ['35-44', a4],
-                            ['45-54', a5],
-                            ['55 above', a6]
-                        ]);
-
-                        // Set chart options
-                        var options = {'title': obj[0].Name,
-                        'width':600,
-                        'height':500};
-
-                        var chart = new google.visualization.PieChart(document.getElementById('1object-' + index));
-
-                        chart.draw(data, options);
-                    }
-                });    
-            }
-            $scope.drawChart2 = function () {
-
-                obj.forEach((item, index, array) =>
-                {
-                    // Create the data table.
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Option');
-                    data.addColumn('number', 'size');
-                    question = obj[index].Name;
+                    // Define row options
+                    columnOptions[index].forEach(element => {
+                        data.addColumn(element[0], element[1]);
+                    });
                     
-                    if(question == "How far away do you live to the nearest hospital?")
-                    {
-                        // b1 = obj[index].options[0].count;
-                        // b2 = obj[index].options[1].count;
-                        // b3 = obj[index].options[2].count;
-                        // b4 = obj[index].options[3].count;
+                    // Define row options
+                    rowOptions[index].forEach(element => {
+                        console.log(element);
+                        data.addRow(element);
+                    });
+                    
+                    // // Set chart options
+                    var options = {'title': obj[index].Name,
+                       'width':600,
+                       'height':500};
 
-                        // 18 below
-                        b18a = obj[index].b18options[0].count;
-                        b18b = obj[index].b1924options[1].count;
-                        b18c = obj[index].b18options[2].count;
-                        b18d = obj[index].b18options[3].count;
-                        // 19-24
-                        b1924a = obj[index].b1924options[0].count;
-                        b1924b = obj[index].b1924options[1].count;
-                        b1924c = obj[index].b1924options[2].count;
-                        b1924d = obj[index].b1924options[3].count;
-                        // 25-34
-                        b2534a = obj[index].b2534options[0].count;
-                        b2534b = obj[index].b2534options[1].count;
-                        b2534c = obj[index].b2534options[2].count;
-                        b2534d = obj[index].b2534options[3].count;
-                        // 35-44
-                        b3544a = obj[index].b3544options[0].count;
-                        b3544b = obj[index].b3544options[1].count;
-                        b3544c = obj[index].b3544options[2].count;
-                        b3544d = obj[index].b3544options[3].count;
-                        // 45-54
-                        b4554a = obj[index].b4554options[0].count;
-                        b4554b = obj[index].b4554options[1].count;
-                        b4554c = obj[index].b4554options[2].count;
-                        b4554d = obj[index].b4554options[3].count;
-                        // 55 above
-                        b55a = obj[index].b55aboveoptions[0].count;
-                        b5b = obj[index].b55aboveoptions[1].count;
-                        b55c = obj[index].b55aboveoptions[2].count;
-                        b5d = obj[index].b55aboveoptions[3].count;
+                    var chart;
 
-                        // data.addRows([
-                        //     ['Less than 15 minutes', b1],
-                        //     ['15-30 minutes', b2],
-                        //     ['30 minutes-1 hour', b3],
-                        //     ['More than 1 hour', b4]
-                        // ]);
-
-                        var data = google.visualization.arrayToDataTable([
-                        ['Age', 'Less than 15 minutes', '15-30 minutes', '30 minutes-1 hour', 'More than 1 hour'],
-                        ['below 18', b18a, b18b, b18c, b18d],
-                        ['19-24', b1924a, b1924b, b1924c, b1924d],
-                        ['25-34', b2534a, b2534b, b2534c, b2534d],
-                        ['35-44', b3544a, b3544b, b3544c, b3544d],
-                        ['45-54', b4554a, b4554b, b4554c, b4554d],
-                        ['55 above', b55a, b55b, b55c, b55d]
-                        ]);
-
-                        // Set chart options
-                        var options = {'title': obj[1].Name,
-                        'width':600,
-                        'height':500};
-
-                        var chart = new google.charts.Bar(document.getElementById('2object-' + index));
-
-                        chart.draw(data, google.charts.Bar.convertOptions(options));
-                    }
-                });    
-            }
-            $scope.drawChart3 = function () {
-
-                obj.forEach((item, index, array) =>
-                {
-                    // Create the data table.
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Option');
-                    data.addColumn('number', 'size');
-                    question = obj[index].Name;
-                    if(question == "Have you known anyone who has had cancer?")
-                    {
-                        // c1 = obj[index].options[0].count;
-                        // c2 = obj[index].options[1].count;
-                        
-                        
-                        // 18 below
-                        c18a = obj[index].c18options[0].count;
-                        c18b = obj[index].c18options[1].count;
-                        c18c = obj[index].c18options[2].count;
-                        c18d = obj[index].c18options[3].count;
-                        c18e = obj[index].c18options[4].count;
-                        // 19-24
-                        c1924a = obj[index].c1924options[0].count;
-                        c1924b = obj[index].c1924options[1].count;
-                        c1924c = obj[index].c1924options[2].count;
-                        c1924d = obj[index].c1924options[3].count;
-                        c1924e = obj[index].c1924options[4].count;
-                        // 25-34
-                        c2534a = obj[index].c2534options[0].count;
-                        c2534b = obj[index].c2534options[1].count;
-                        c2534c = obj[index].c2534options[2].count;
-                        c2534d = obj[index].c2534options[3].count;
-                        c2534e = obj[index].c2534options[4].count;
-                        // 35-44
-                        c3544a = obj[index].c3544options[0].count;
-                        c3544b = obj[index].c3544options[1].count;
-                        c3544c = obj[index].c3544options[2].count;
-                        c3544d = obj[index].c3544options[3].count;
-                        c3544e = obj[index].c3544options[4].count;
-                        // 45-54
-                        c4554a = obj[index].c4554options[0].count;
-                        c4554b = obj[index].c4554options[1].count;
-                        c4554c = obj[index].c4554options[2].count;
-                        c4554d = obj[index].c4554options[3].count;
-                        c4554e = obj[index].c4554options[4].count;
-                        // 55 above
-                        c55a = obj[index].c55aboveoptions[0].count;
-                        c55b = obj[index].c55aboveoptions[1].count;
-                        c55c = obj[index].c55aboveoptions[2].count;
-                        c55d = obj[index].c55aboveoptions[3].count;
-                        c55e = obj[index].c55aboveoptions[4].count;
-
-                        // data.addRows([
-                        //     ['Yes', c1],
-                        //     ['No', c2]
-                        // ]);
-
-                        var data = google.visualization.arrayToDataTable([
-                        ['Age', '0', '1', '2', '3', '4+'],
-                        ['below 18', c18a, c18b, c18c, c18d, c18e],
-                        ['19-24', c1924a, c1924b, c1924c, c1924d, c1924e],
-                        ['25-34', c2534a, c2534b, c2534c, c2534d, c2534e],
-                        ['35-44', c3544a, c3544b, c3544c, c3544d, c3544e],
-                        ['45-54', c4554a, c4554b, c4554c, c4554d, c4554e],
-                        ['55 above', c55a, c55b, c55c, c55d, c55e]
-                        ]);
-
-                        // Set chart options
-                        var options = {'title': obj[2].Name,
-                        'width':600,
-                        'height':500};
-
-                        var chart = new google.charts.Bar(document.getElementById('3object-' + index));
-
-                        chart.draw(data, google.charts.Bar.convertOptions(options));
-                    }
-                });    
-            }
-            $scope.drawChart4 = function () {
-                obj.forEach((item, index, array) =>
-                {
-                    // Create the data table.
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Option');
-                    data.addColumn('number', 'size');
-                    question = obj[index].Name;
-                    if(question == "Do you find value in a software that provides patients with the ability to update their quality of life for doctors to monitor?")
-                    {
-                        d1 = obj[index].options[0].count;
-                        d2 = obj[index].options[1].count;
-                        d3 = obj[index].options[2].count;
-
-                        data.addRows([
-                            ['Yes', a1],
-                            ['No', a2],
-                            ['Not Sure', a3]
-                        ]);
-
-                        // Set chart options
-                        var options = {'title': obj[3].Name,
-                        'width':600,
-                        'height':500};
-
-                        var chart = new google.visualization.PieChart(document.getElementById('4object-' + index));
-
+                    // Only displaying four questions 
+                    if(index == 0 || index == 3) {
+                        chart = new google.visualization.PieChart(document.getElementById('object-' + index));
                         chart.draw(data, options);
+                    } else if (index == 1 || index == 2){
+                        chart = new google.charts.Bar(document.getElementById('object-' + index));
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                    } else {
+                        console.log("Invalid Index");
                     }
-                });    
+                });       
             }
         });
     </script>
     <script>
         function startTime() {
-        var today = new Date();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-        document.getElementById('txt').innerHTML =
-        h + ":" + m + ":" + s;
-        var t = setTimeout(startTime, 500);
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('txt').innerHTML =
+            h + ":" + m + ":" + s;
+            var t = setTimeout(startTime, 500);
         }
         function checkTime(i) {
-        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-        return i;
+            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+            return i;
         }
     </script>
 
