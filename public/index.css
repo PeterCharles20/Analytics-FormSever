@@ -1,6 +1,5 @@
 body
 {
-	background-color: #f9f9f9;
 }
 
 .navbar
@@ -27,4 +26,15 @@ body
 .container.chart
 {
 	margin-bottom: 40px;
+}
+
+#time-div, #total-div
+{
+	text-align: left;
+	display: flex;
+	flex-direction: row;
+}
+#txt, #txt2
+{
+	margin-left: 10px;
 }
