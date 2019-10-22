@@ -8,6 +8,10 @@ body
 	box-shadow: 0px 1px 6px #999;
 	margin-bottom: 40px;
 }
+.container.wrapper
+{
+	text-align: center;
+}
 #title
 {
 	color: white;
@@ -38,3 +42,9 @@ body
 {
 	margin-left: 10px;
 }
+
+#div-1
+{
+	text-align: center;
+}
+

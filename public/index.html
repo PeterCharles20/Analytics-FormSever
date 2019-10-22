@@ -19,9 +19,9 @@
     </nav>
 
     <div  ng-controller="mainCtrl"><div class="bd-example">
-        <div class="container" style="text-align: center"> 
+        <div class="container wrapper"> 
         
-                <div class="container" style="text-align: center">
+                <div class="container">
                     <button class="btn btn-primary" ng-click="drawChart()">Refresh</button>
                     <br /> <br />
                         <!-- Display date -->
@@ -45,50 +45,53 @@
         
                         <h1>Responses</h1>
                         <br />
-        
 
+                        
                         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                <ol class="carousel-indicators">
-                                  <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                  <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                  <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                  <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-                                </ol>
-                                <div class="carousel-inner">
-                                  <!-- Chart 1 -->
-                                  <div class="carousel-item active">
-                                    <div ng-repeat="x in questions.slice(3,entries.length)">
-                                        <div ng-attr-id="{{ 'object-' + $index}}"></div>
-                                    </div>
-                                  </div>
-                                  <!-- Chart 2 -->
-                                  <div class="carousel-item">
-                                    <div ng-repeat="x in questions.slice(2,entries.length)">
-                                        <div ng-attr-id="{{ 'object-' + $index}}"></div>
-                                    </div>
-                                  </div>
-                                  <!-- Chart 3 -->
-                                  <div class="carousel-item">
-                                    <div ng-repeat="x in questions.slice(1,entries.length)">
-                                        <div ng-attr-id="{{ 'object-' + $index}}"></div>
-                                    </div>
-                                  </div>
-                                  <!-- Chart 4 -->
-                                  <div class="carousel-item">
-                                    <div ng-repeat="x in questions.slice(0,entries.length)">
-                                        <div ng-attr-id="{{ 'object-' + $index}}"></div>
-                                    </div>
-                                  </div>
+                            <ol class="carousel-indicators">
+                              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                              <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                              <!-- Chart 1 -->
+                              <div class="carousel-item active">
+                                <div ng-repeat="x in questions.slice(3,entries.length)">
+                                    <div ng-attr-id="{{ 'object-' + $index}}"></div>
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                  <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                  <span class="sr-only">Next</span>
-                                </a>
                               </div>
+                              <!-- Chart 2 -->
+                              <div class="carousel-item">
+                                <div ng-repeat="x in questions.slice(2,entries.length)">
+                                    <div ng-attr-id="{{ 'object-' + $index}}"></div>
+                                </div>
+                              </div>
+                              <!-- Chart 3 -->
+                              <div class="carousel-item">
+                                <div ng-repeat="x in questions.slice(1,entries.length)">
+                                    <div ng-attr-id="{{ 'object-' + $index}}"></div>
+                                </div>
+                              </div>
+                              <!-- Chart 4 -->
+                              <div class="carousel-item">
+                                <div ng-repeat="x in questions.slice(0,entries.length)">
+                                    <div ng-attr-id="{{ 'object-' + $index}}"></div>
+                                </div>
+                              </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </div>
+
+
+                        
                 </div>
         
 
@@ -162,8 +165,8 @@
                     
                     // // Set chart options
                     var options = {'title': obj[index].Name,
-                       'width':600,
-                       'height':500,
+                       'width':900,
+                       'height':800,
                         'backgroundColor': '#f9f9f9'};
 
                     var chart;
