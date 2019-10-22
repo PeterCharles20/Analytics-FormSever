@@ -20,56 +20,47 @@
 
     <div  ng-controller="mainCtrl"><div class="bd-example">
         <div class="container" style="text-align: center"> 
-            <button class="btn btn-primary" ng-click="drawChart()" onclick="startTime()">Refresh</button>
-            <br /> <br />
-                <!-- Display date -->
-                <div id="txt"></div>
-                <br />
-                <!-- Total Submissions Div -->
-                <div>
-                    <p>Total Submissions:</p>
+        
+                <div class="container" style="text-align: center">
+                    <button class="btn btn-primary" ng-click="drawChart()" onclick="startTime()">Refresh</button>
+                    <br /> <br />
+                        <!-- Display date -->
+                        <div id="txt"></div>
+                        <br />
+                        <!-- Total Submissions Div -->
+                        <div>
+                            <p>Total Submissions:</p>
+                        </div>
+        
+                        <h1>Responses</h1>
+        
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                              <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                    <div class="d-block w-100" ng-attr-id="{{ 'object-' + 0}}"></div>
+                              </div>
+                              <div class="carousel-item" ng-repeat="x in questions" ng-hide="$first">
+                                <div class ="d-block w-100" ng-attr-id="{{ 'object-' + $index}}"></div>
+                              </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </div>
                 </div>
-                
-                <h1>Responses</h1>
+        
 
-                <!-- Charts -->
-                <div ng-repeat="x in questions">
-                    <div ng-attr-id="{{ 'object-' + $index}}">
-                    </div>                    
-                </div>
-
-                <!-- Carousel -->
-                <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                          
-                      </div>
-                      <div class="carousel-item">
-                          
-                      </div>
-                      <div class="carousel-item">
-                          
-                      </div>
-                      <div class="carousel-item">
-                          
-                      </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                </div> -->
-
-                <div id="chartdiv"></div>
         </div>
     </div>
 
