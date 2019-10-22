@@ -10,23 +10,64 @@
 
     </head>
 <body>
+<!-- Image and text -->
     <nav class="navbar navbar-light">
-        <span id="logo" class="navbar-brand mb-0 h1">PatientPal</span>
+        <a class="navbar-brand" href="#">
+            <img src="assets/logo.png" width="40" height="40" class="d-inline-block align-top" alt="">
+            <span class="navbar-brand mb-0 h1" id="title">PatientPal</span>
+        </a>
     </nav>
 
     <div  ng-controller="mainCtrl"><div class="bd-example">
         <div class="container" style="text-align: center"> 
-            <button ng-click="drawChart()">Refresh</button>
-                <h1>Responses</h1>
+            <button class="btn btn-primary" ng-click="drawChart()" onclick="startTime()">Refresh</button>
+            <br /> <br />
                 <!-- Display date -->
                 <div id="txt"></div>
-                <p id="demo"></p>
+                <br />
+                <!-- Total Submissions Div -->
+                <div>
+                    <p>Total Submissions:</p>
+                </div>
+                
+                <h1>Responses</h1>
 
                 <!-- Charts -->
                 <div ng-repeat="x in questions">
                     <div ng-attr-id="{{ 'object-' + $index}}">
                     </div>                    
                 </div>
+
+                <!-- Carousel -->
+                <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                          
+                      </div>
+                      <div class="carousel-item">
+                          
+                      </div>
+                      <div class="carousel-item">
+                          
+                      </div>
+                      <div class="carousel-item">
+                          
+                      </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                </div> -->
 
                 <div id="chartdiv"></div>
         </div>
