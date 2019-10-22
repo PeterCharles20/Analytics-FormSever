@@ -22,9 +22,13 @@ body
 }
 .btn
 {
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 .container.chart
 {
 	margin-bottom: 40px;
 }
+
+/* .graphs {
+	margin-right: 20%;
+} */
