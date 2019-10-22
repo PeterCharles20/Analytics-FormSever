@@ -7,46 +7,36 @@
                   ["number", "count"]
             ],
             "rows": [
-                ["18-below", 32],
+                ["Below 18", 32],
                 ["19-24", 32],
                 ["25-34", 32],
                 ["35-44", 32],
                 ["45-54", 32],
-                ["55-above", 32]
+                ["55 above", 32]
             ]
         },
         {
             "Name":"How far away do you live to the nearest hospital?",
             "columns": [
-              ["string", "Age"],
-              ["number", "Less than 15 minutes"],
-              ["number", "15-30 minutes"],
-              ["number", "30 minutes-1 hour"],
-              ["number", "More than 1 hour"]
+              ["string", "Option"],
+              ["number", "count"]
             ],
             "rows": [
-                ["18-below", 2, 4, 6, 8],
-                ["19-24", 2, 4, 6, 8],
-                ["25-34", 2, 4, 6, 8],
-                ["35-44", 2, 4, 6, 8],
-                ["45-54", 2, 4, 6, 8],
-                ["55-above", 2, 4, 6, 8]
+                ["Less than 15 minutes", 2],
+                ["15-30 minutes", 2],
+                ["30 minutes-1 hour", 2],
+                ["More than 1 hour", 2]
             ]
         },
         {
             "Name": "Have you known anyone who has had cancer?",
             "columns": [
-              ["string", "Age"],
-              ["number", "Yes"],
-              ["number", "No"]
+              ["string", "Option"],
+              ["number", "count"]
             ],
             "rows": [
-                ["18-below", 2, 4],
-                ["19-24", 2, 4],
-                ["25-34", 2, 4],
-                ["35-44", 2, 4],
-                ["45-54", 2, 4],
-                ["55-above", 2, 4]            
+                ["Yes",32],
+                ["No", 8]
             ]
         },
         {

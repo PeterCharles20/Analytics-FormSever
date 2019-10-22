@@ -10,58 +10,25 @@
 
     </head>
 <body>
-<!-- Image and text -->
     <nav class="navbar navbar-light">
-        <a class="navbar-brand" href="#">
-            <img src="assets/logo.png" width="40" height="40" class="d-inline-block align-top" alt="">
-            <span class="navbar-brand mb-0 h1" id="title">PatientPal</span>
-        </a>
+        <span id="logo" class="navbar-brand mb-0 h1">PatientPal</span>
     </nav>
 
     <div  ng-controller="mainCtrl"><div class="bd-example">
         <div class="container" style="text-align: center"> 
-            <button class="btn btn-primary" ng-click="drawChart()" onclick="startTime()">Refresh</button>
-            <br /> <br />
+            <button ng-click="drawChart()">Refresh</button>
+                <h1>Responses</h1>
                 <!-- Display date -->
                 <div id="txt"></div>
-                <br />
-                <!-- Total Submissions Div -->
-                <div>
-                    <p>Total Submissions:</p>
-                </div>
-                
-                <h1>Responses</h1>
+                <p id="demo"></p>
 
                 <!-- Charts -->
-                <!-- <div ng-repeat="x in questions" id="graphs" class="carousel-item">
+                <div ng-repeat="x in questions">
                     <div ng-attr-id="{{ 'object-' + $index}}">
                     </div>                    
-                </div> -->
+                </div>
 
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                            <div class="d-block w-100" ng-attr-id="{{ 'object-' + 0}}"></div>
-                      </div>
-                      <div class="carousel-item" ng-repeat="x in questions" ng-hide="$first">
-                        <div class ="d-block w-100" ng-attr-id="{{ 'object-' + $index}}"></div> 
-                      </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </div>
+                <div id="chartdiv"></div>
         </div>
     </div>
 
@@ -132,8 +99,8 @@
                     
                     // // Set chart options
                     var options = {'title': obj[index].Name,
-                       'width':1000,
-                       'height':900};
+                       'width':600,
+                       'height':500};
 
                     var chart;
 
