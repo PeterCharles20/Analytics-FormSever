@@ -8,9 +8,8 @@ body
 	box-shadow: 0px 1px 6px #999;
 	margin-bottom: 40px;
 }
-.container.wrapper
+.container
 {
-	text-align: center;
 }
 #title
 {
@@ -23,21 +22,7 @@ body
 	font-size: 30px;
 	color: white;
 }
-.btn
-{
-	margin-bottom: 30px;
-}
-.container.chart
-{
-	margin-bottom: 40px;
-}
 
-#time-div, #total-div
-{
-	text-align: left;
-	display: flex;
-	flex-direction: row;
-}
 #txt, #txt2
 {
 	margin-left: 10px;
@@ -46,5 +31,11 @@ body
 #div-1
 {
 	text-align: center;
+}
+
+#right-pane {
+}
+
+#left-pane {
 }
 

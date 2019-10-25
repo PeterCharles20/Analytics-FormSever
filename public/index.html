@@ -2,14 +2,13 @@
 <html>
     <head>
             <link rel="stylesheet" href="index.css" type="text/css">
-            <link rel="stylesheet" href="jquery.js">
             <!-- Bootstrap CSS -->
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
             <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     </head>
-<body onload="startTime()" style="background: #f9f9f9">
+<body style="background: #f9f9f9">
 <!-- Image and text -->
     <nav class="navbar navbar-light">
         <a class="navbar-brand" href="#">
@@ -18,83 +17,19 @@
         </a>
     </nav>
 
-    <div  ng-controller="mainCtrl"><div class="bd-example">
-        <div class="container wrapper"> 
-        
-                <div class="container">
-                    <button class="btn btn-primary" ng-click="drawChart()">Refresh</button>
-                    <br /> <br />
-                        <!-- Display date -->
-                        <div id="time-div">
-                            <div>
-                                <h3>Current Time:</h3>
-                            </div>
-                            <h3>
-                                <div id="txt">
-                                    
-                                </div>
-                            </h3>
-                        </div>
-                        <br />
-                        <!-- Total Submissions Div -->
-                        <div id="total-div">
-                            <h5>Total Submissions:</h5>
-                            <p id="txt2"></p>
-                            <!-- Display total submissions here -->
-                        </div>
-        
-                        <h1>Responses</h1>
-                        <br />
-
-                        
-                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                              <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                              <!-- Chart 1 -->
-                              <div class="carousel-item active">
-                                <div ng-repeat="x in questions.slice(3,entries.length)">
-                                    <div ng-attr-id="{{ 'object-' + $index}}"></div>
-                                </div>
-                              </div>
-                              <!-- Chart 2 -->
-                              <div class="carousel-item">
-                                <div ng-repeat="x in questions.slice(2,entries.length)">
-                                    <div ng-attr-id="{{ 'object-' + $index}}"></div>
-                                </div>
-                              </div>
-                              <!-- Chart 3 -->
-                              <div class="carousel-item">
-                                <div ng-repeat="x in questions.slice(1,entries.length)">
-                                    <div ng-attr-id="{{ 'object-' + $index}}"></div>
-                                </div>
-                              </div>
-                              <!-- Chart 4 -->
-                              <div class="carousel-item">
-                                <div ng-repeat="x in questions.slice(0,entries.length)">
-                                    <div ng-attr-id="{{ 'object-' + $index}}"></div>
-                                </div>
-                              </div>
-                            </div>
-                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                              <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                              <span class="sr-only">Next</span>
-                            </a>
-                          </div>
-
-
-                        
+    <div ng-controller="mainCtrl"><div class="bd-example">
+        <div class="container">     
+            <div id="left-pane" class="row">
+                <div ng-repeat="x in questions" on-finish-render="ngRepeatFinished" class="col-12 col-md-8">
+                    <div ng-attr-id="{{ 'object-' + $index}}" id="chart" ></div>
                 </div>
-        
-
+            </div>
+            <div id="right-pane" class="row">
+                    <div class="col-12 col-md-8">
+                        <h5>Total Submissions:</h5>
+                        <p id="txt2"></p>
+                    </div>
+                </div>
         </div>
     </div>
 
@@ -110,6 +45,19 @@
         });
 
         var app = angular.module('analyticsApplication', []);
+        app.directive('onFinishRender', function ($timeout) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attr) {
+                    if (scope.$last === true) {
+                        $timeout(function () {
+                            google.charts.load('current', {'packages':['bar']});                            
+                            scope.$emit(attr.onFinishRender);
+                        });
+                    }
+                }
+            }
+        });
 
         app.controller('mainCtrl', function ($scope, $http) {
 
@@ -119,16 +67,13 @@
 
             // Compares question name
             var question;
-            
-            // Load Bar charts
-            google.charts.load('current', {'packages':['bar']});
 
             // HTTP GET request to backend.
             // Retrieves JSON obj of questions
             $http.get("/responses").then(function (response) {
-                console.log(response);
-                $scope.questions = response.data.Questions;
-                obj = $scope.questions; 
+            console.log(response);
+            $scope.questions = response.data.Questions;
+            obj = $scope.questions; 
             }).then(() => {
                 // Sorts row and column options
                 obj.forEach((item, index, array) => {
@@ -140,14 +85,14 @@
                     });
                 });
                 console.log(rowOptions);
-                  
-            })
-            .catch(function(err){
+            }).catch(function(err){
                 alert(err.message);
             });
+            
 
             // Draws a chart.
-            $scope.drawChart = function () {
+            $scope.$on('ngRepeatFinished', (ngRepeatFinishedEvent) => {
+
                 obj.forEach((item, index, array) => {
                     // Create the data table.
                     var data = new google.visualization.DataTable();
@@ -165,8 +110,8 @@
                     
                     // // Set chart options
                     var options = {'title': obj[index].Name,
-                       'width':900,
-                       'height':800,
+                       'width':600,
+                       'height':400,
                         'backgroundColor': '#f9f9f9'};
 
                     var chart;
@@ -176,41 +121,16 @@
                         chart = new google.visualization.PieChart(document.getElementById('object-' + index));
                         chart.draw(data, options);
                     } else if (index == 1 || index == 2){
-                        chart = new google.charts.Bar(document.getElementById('object-' + index));
-                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                        chart = new google.visualization.BarChart(document.getElementById('object-' + index));
+                        chart.draw(data, options);
                     } else {
                         console.log("Invalid Index");
                     }
-                });       
-            }
+                });
+            });
         });
-    </script>
-    <script>
-        function startTime()
-        {
-            var today = new Date();
-            var h = today.getHours();
-            var m = today.getMinutes();
-            var s = today.getSeconds();
-            m = checkTime(m);
-            s = checkTime(s);
-            document.getElementById('txt').innerHTML =
-            h + ":" + m + ":" + s;
-            var t = setTimeout(startTime, 500);
-        }
-        function checkTime(i)
-        {
-            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-            return i;
-        }
     </script>
 
 </body>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </html>
