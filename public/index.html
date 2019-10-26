@@ -18,17 +18,23 @@
     </nav>
 
     <div ng-controller="mainCtrl"><div class="bd-example">
-        
-        <div id="chartContainer">
-            <div ng-repeat="x in questions" on-finish-render="ngRepeatFinished" id="chart">
-                <div ng-attr-id="{{ 'object-' + $index}}" ></div>
+        <div id="page-wrapper">
+            <div class="column" id="chart">
+                <div ng-repeat="x in questions" on-finish-render="ngRepeatFinished">
+                    <div ng-attr-id="{{ 'object-' + $index}}" ></div>
+                </div>
+            </div>
+            <div class="column" id="total-con">
+                <div id="total">
+                    <h5>Total Submissions:</h5>
+                </div>
+                <div>
+                    <!-- DISPLAY TOTAL HERE -->
+                    <h5></h5>
+                </div>
             </div>
         </div>
 
-        <div class="col-12 col-md-8">
-            <h5>Total Submissions:</h5>
-            <p id="txt2"></p>
-        </div>
             
         
     </div>
@@ -110,8 +116,8 @@
                     
                     // // Set chart options
                     var options = {'title': obj[index].Name,
-                       'width':600,
-                       'height':400,
+                       'width':500,
+                       'height':300,
                         'backgroundColor': '#f9f9f9'};
 
                     var chart;
