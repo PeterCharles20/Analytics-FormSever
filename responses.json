@@ -19,10 +19,10 @@
             "Name":"How far away do you live to the nearest hospital?",
             "columns": [
               ["string", "Age"],
-              ["number", "Less than 15 minutes"],
-              ["number", "15-30 minutes"],
-              ["number", "30 minutes-1 hour"],
-              ["number", "More than 1 hour"]
+              ["number", "<15 min"],
+              ["number", "15-30 min"],
+              ["number", "30-60 min"],
+              ["number", ">60 min"]
             ],
             "rows": [
                 ["18-below", 2, 4, 6, 8],
