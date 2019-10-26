@@ -18,19 +18,19 @@
     </nav>
 
     <div ng-controller="mainCtrl"><div class="bd-example">
-        <div class="container">     
-            <div id="left-pane" class="row">
-                <div ng-repeat="x in questions" on-finish-render="ngRepeatFinished" class="col-12 col-md-8">
-                    <div ng-attr-id="{{ 'object-' + $index}}" id="chart" ></div>
-                </div>
+        
+        <div id="chartContainer">
+            <div ng-repeat="x in questions" on-finish-render="ngRepeatFinished" id="chart">
+                <div ng-attr-id="{{ 'object-' + $index}}" ></div>
             </div>
-            <div id="right-pane" class="row">
-                    <div class="col-12 col-md-8">
-                        <h5>Total Submissions:</h5>
-                        <p id="txt2"></p>
-                    </div>
-                </div>
         </div>
+
+        <div class="col-12 col-md-8">
+            <h5>Total Submissions:</h5>
+            <p id="txt2"></p>
+        </div>
+            
+        
     </div>
 
     <script>
