@@ -1,26 +1,97 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <link rel="stylesheet" href="index.css" type="text/css">
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
     </head>
 <body>
+<!-- Image and text -->
+    <nav class="navbar navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="assets/logo.png" width="40" height="40" class="d-inline-block align-top" alt="">
+            <span class="navbar-brand mb-0 h1" id="title">PatientPal</span>
+        </a>
+    </nav>
 
-    <div  ng-controller="mainCtrl">
-        <button ng-click="drawChart()">Refresh</button>
-        <!--Div that will hold the pie chart-->
-        <h1>Responses</h1>
-        <div ng-repeat="x in questions">
-            <div ng-attr-id="{{ 'object-' + $index}}">
-
+    <div ng-controller="mainCtrl"><div class="bd-example">
+        <div id="page-wrapper">
+            <div class="column" id="chart">
+                <div ng-repeat="x in questions" on-finish-render="ngRepeatFinished">
+                    <div ng-attr-id="{{ 'object-' + $index}}" ></div>
+                </div>
             </div>
-            
+            <div class="column" id="total-con">
+                <div id="total">
+                    <h5>Total Submissions:</h5>
+                </div>
+                <div>
+                    <!-- DISPLAY TOTAL HERE -->
+                    <h5>344</h5>
+                </div>
+            </div>
+            <div class="column" id="total-con">
+                <div class="total2" id="tt2">
+                    <div>
+                        <p>Note: <br />
+                            Below are the combined totals for each question answered.
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="column" id="total-con">
+                <div class="total2">
+                    <div class="t1">
+                        <p>What is your age?</p>
+                    </div>
+                    <div class="t2">
+                        <!-- DISPLAY TOTAL HERE -->
+                        <p class="tot-q">14</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column" id="total-con">
+                <div class="total2">
+                    <div class="t1">
+                        <p>How far away do you live to the nearest hospital?</p>
+                    </div>
+                    <div class="t2">
+                        <!-- DISPLAY TOTAL HERE -->
+                        <p class="tot-q">23</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column" id="total-con">
+                <div class="total2">
+                    <div class="t1">
+                        <p>Have you known anyone who has had cancer?</p>
+                    </div>
+                    <div class="t2">
+                        <!-- DISPLAY TOTAL HERE -->
+                        <p class="tot-q">34</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column" id="total-con">
+                <div class="total2">
+                    <div class="t1">
+                        <p>Do you find value in a software that provides patients with the ability to update their quality of life for doctors to monitor?</p>
+                    </div>
+                    <div class="t2">
+                        <!-- DISPLAY TOTAL HERE -->
+                        <p class="tot-q">5</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div id="chartdiv"></div>
+            
         
     </div>
-
 
     <script>
 
@@ -33,52 +104,199 @@
             angular.bootstrap(document.body, ['analyticsApplication']);
         });
 
-
         var app = angular.module('analyticsApplication', []);
+        app.directive('onFinishRender', function ($timeout) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attr) {
+                    if (scope.$last === true) {
+                        $timeout(function () {
+                            google.charts.load('current', {'packages':['bar']});                            
+                            scope.$emit(attr.onFinishRender);
+                        });
+                    }
+                }
+            }
+        });
 
         app.controller('mainCtrl', function ($scope, $http) {
+            
 
-            let obj = {};
-            let yesCount = 0;
-            let noCount = 0;
+            let obj = {}; // Stores all the questions 
+            // let rowOptions = []; // Stores row options
+            let data = [4];
+            let charts = [4];
+            let options = [4];
+            $scope.questions = ['chart1', 'chart2', "chart3", 'chart4']; //Default
 
-            $http.get("/responses").then(function (response) {
-                console.log(response);
-                $scope.questions = response.data.Questions;
-                obj = $scope.questions;
+            setInterval(function(){
+
+                drawChart();
+                $scope.update();
+            }, 5000);
+        
+            // HTTP GET request to backend.
+            // Retrieves JSON obj of questions
+            $scope.update = function() {
+                $http.get("/responses").then(function (response) {
+                    console.log(response);
+                    obj = response.data.Questions; 
+                }).then(() => {
+                    // Sorts row and column options
+                    obj.Age.forEach((item, index, array) => {
+                        data[0].setValue(index, 1, item);
+                    });
+                    obj.Distance.forEach((item, index, array) => {
+                        data[1].setValue(index, 1, item[0]);
+                        data[1].setValue(index, 2, item[1]);
+                        data[1].setValue(index, 3, item[2]);
+                        data[1].setValue(index, 4, item[3]);
+                    });
+                    obj.Knowledge.forEach((item, index, array) => {
+                        data[2].setValue(index, 1, item[0]);
+                        data[2].setValue(index, 2, item[1]);
+                        data[2].setValue(index, 3, item[2]);
+                    });
+                    obj.Rating.forEach((item, index, array) => {
+                        data[3].setValue(index, 1, item[0]);
+                        data[3].setValue(index, 2, item[1]);
+                        data[3].setValue(index, 3, item[2]);
+                    });
+
+                    drawChart();
+                }).catch(function(err){
+                    alert(err.message);
+                });
+            }
+
+            $scope.updateData = function() {
+
+            }
+           
+            // Draws a chart.
+            $scope.$on('ngRepeatFinished', (ngRepeatFinishedEvent) => {
                 
-            }).catch(function(err){
-                alert(err.message);
+                //init all data
+                for (let i = 0; i < 4; i++) {
+                    data[i] = new google.visualization.DataTable();
+                }
+
+                // Add columns and rows for first questino
+                data[0].addColumn('string', 'option');
+                data[0].addColumn('number', 'count');
+
+                data[0].addRow(["18-below", 1]);
+                data[0].addRow(["19-24", 0]);
+                data[0].addRow(["25-34", 0]);
+                data[0].addRow(["35-44", 0]);
+                data[0].addRow(["45-54", 0]);
+                data[0].addRow(["55-above", 0]);
+
+                // Add columns and rows for second questino
+                data[1].addColumn("string", "Age");
+                data[1].addColumn("number", "<15 min");
+                data[1].addColumn("number", "15-30 min");
+                data[1].addColumn("number", "30-60 min");
+                data[1].addColumn("number", ">60 min");
+
+                data[1].addRow(["18-below", 1, 0, 0, 0]);
+                data[1].addRow(["19-24", 0, 0, 0, 0]);
+                data[1].addRow(["25-34", 0, 0, 0, 0]);
+                data[1].addRow(["35-44", 0, 0, 0, 0]);
+                data[1].addRow(["45-54", 0, 0, 0, 0]);
+                data[1].addRow(["55-above", 0, 0, 0, 0]);
+
+                // Add columns and rows for third questino
+                data[2].addColumn("string", "Age");
+                data[2].addColumn("number", "Yes");
+                data[2].addColumn("number", "No");
+                data[2].addColumn("number", "I do not wish to answer");
+
+                data[2].addRow(["18-below", 1, 0, 0, ]);
+                data[2].addRow(["19-24", 0, 0, 0, ]);
+                data[2].addRow(["25-34", 0, 0, 0, ]);
+                data[2].addRow(["35-44", 0, 0, 0, ]);
+                data[2].addRow(["45-54", 0, 0, 0, ]);
+                data[2].addRow(["55-above", 0, 0, 0, ]);
+
+                // Add columns and rows for fourth questino
+                data[3].addColumn("string", "Age");
+                data[3].addColumn("number", "Yes");
+                data[3].addColumn("number", "Yes");
+                data[3].addColumn("number", "Most likely yes");
+                
+
+                data[3].addRow(["18-below", 1, 0, 0, ]);
+                data[3].addRow(["19-24", 0, 0, 0, ]);
+                data[3].addRow(["25-34", 0, 0, 0, ]);
+                data[3].addRow(["35-44", 0, 0, 0, ]);
+                data[3].addRow(["45-54", 0, 0, 0, ]);
+                data[3].addRow(["55-above", 0, 0, 0, ]);
+                
+                //Set options
+
+                options[0] = {
+                    'title': "What is your age?",
+                    'width':500,
+                    'height':300,  
+                    animation:{
+                    duration: 1000,
+                    easing: 'out',
+                    },
+
+                };
+
+                options[1] = {
+                    'title': "How far away do you live to the nearest hospital?",
+                    'width':500,
+                    'height':300,
+                    animation:{
+                    duration: 1000,
+                    easing: 'out',}
+                };
+
+                options[2] = {
+                    'title': "Have you known anyone who has had cancer?",
+                    'width':500,
+                    'height':300,
+                    animation:{
+                    duration: 1000,
+                    easing: 'out',}
+                };
+
+                options[3] = {
+                    'title': "Do you find value in a software that provides patients with the ability to update their quality of life for doctors to monitor?",
+                    'width':500,
+                    'height':300,
+                    animation:{
+                    duration: 1000,
+                    easing: 'out',}
+                };
+
+                // Draw Charts
+                charts[0] = new google.visualization.PieChart(document.getElementById('object-' + 0));
+                charts[0].draw(data[0], options[0]);
+                charts[1] = new google.visualization.BarChart(document.getElementById('object-' + 1));
+                charts[1].draw(data[1], options[1]);
+                charts[2] = new google.visualization.BarChart(document.getElementById('object-' + 2));
+                charts[2].draw(data[2], options[2]);
+                charts[3] = new google.visualization.ColumnChart(document.getElementById('object-' + 3));
+                charts[3].draw(data[3], options[3]);
             });
 
-            $scope.drawChart = function () {
+            function drawChart() {
+                // for(let i = 0; i < 4; i++) {
+                //     google.visualization.events.addListener(chart, 'ready',
+                //     function() {
+                //     });
+                // }
+                charts[0].draw(data[0], options[0]);
+                charts[1].draw(data[1], options[1]);
+                charts[2].draw(data[2], options[2]);
+                charts[3].draw(data[3], options[3]);
 
-                obj.forEach((item, index, array) => {
-                    // Create the data table.
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Option');
-                    data.addColumn('number', 'size');
-
-                    yesCount = obj[index].options[0].count;
-                    noCount = obj[index].options[1].count;
-
-                    data.addRows([
-                        ['Yes', yesCount],
-                        ['No', noCount],
-                    ]);
-
-                    // Set chart options
-                    var options = {'title': obj[index].Name,
-                       'width':600,
-                       'height':500};
-
-                    var chart = new google.visualization.PieChart(document.getElementById('object-' + index));
-
-                    chart.draw(data, options);
-                });
-                    
             }
-        
+
         });
     </script>
 

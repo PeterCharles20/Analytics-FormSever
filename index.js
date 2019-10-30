@@ -8,8 +8,11 @@
   */
 const express = require('express');
 const obj = require("../Analytics-FormSever/responses.json");
+const cors = require('cors');
 
 let app = express();
+
+app.use(cors())
 
 
 //Serve static files
@@ -33,4 +36,8 @@ app.get('/responses', (req, res) => {
 /**
  * Listen
  */
-app.listen(3000);
+var port = 3001;
+app.listen(port, function()
+{
+	console.log('Example app listening on port ' + port + "!");
+});
