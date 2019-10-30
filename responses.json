@@ -1,65 +1,32 @@
 {
-    "Questions":[
-        {
-            "Name": "What is your age?",
-            "columns": [
-                  ["string", "option"],
-                  ["number", "count"]
-            ],
-            "rows": [
-                ["18-below", 32],
-                ["19-24", 32],
-                ["25-34", 32],
-                ["35-44", 32],
-                ["45-54", 32],
-                ["55-above", 32]
-            ]
-        },
-        {
-            "Name":"How far away do you live to the nearest hospital?",
-            "columns": [
-              ["string", "Age"],
-              ["number", "<15 min"],
-              ["number", "15-30 min"],
-              ["number", "30-60 min"],
-              ["number", ">60 min"]
-            ],
-            "rows": [
-                ["18-below", 2, 4, 6, 8],
-                ["19-24", 2, 4, 6, 8],
-                ["25-34", 2, 4, 6, 8],
-                ["35-44", 2, 4, 6, 8],
-                ["45-54", 2, 4, 6, 8],
-                ["55-above", 2, 4, 6, 8]
-            ]
-        },
-        {
-            "Name": "Have you known anyone who has had cancer?",
-            "columns": [
-              ["string", "Age"],
-              ["number", "Yes"],
-              ["number", "No"]
-            ],
-            "rows": [
-                ["18-below", 2, 4],
-                ["19-24", 2, 4],
-                ["25-34", 2, 4],
-                ["35-44", 2, 4],
-                ["45-54", 2, 4],
-                ["55-above", 2, 4]            
-            ]
-        },
-        {
-            "Name": "Do you find value in a software that provides patients with the ability to update their quality of life for doctors to monitor?",
-            "columns": [
-                ["string", "option"],
-                ["number", "count"]
-              ],
-            "rows": [
-                ["Yes",32],
-                ["No",1],
-                ["Not Sure",11]
-            ]
-        }
-    ]
+    "Questions": {
+        "Age": [
+            23,22,7,9,5,1
+        ],
+        "Distance": [
+            [34,12,2,3],
+            [34,12,2,3],
+            [34,12,2,3],
+            [34,12,2,3],
+            [34,12,2,3],
+            [34,12,2,3]
+        ],
+
+        "Knowledge": [
+            [34,12,2],
+            [34,12,2],
+            [34,12,2],
+            [34,12,2],
+            [34,12,2],
+            [34,12,2]
+        ],
+        "Rating": [
+            [34,12,2],
+            [34,12,2],
+            [34,12,2],
+            [34,12,2],
+            [34,12,2],
+            [34,12,2]
+        ]
+    }
 }

@@ -8,7 +8,7 @@
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     </head>
-<body style="background: #f9f9f9">
+<body>
 <!-- Image and text -->
     <nav class="navbar navbar-light">
         <a class="navbar-brand" href="#">
@@ -120,74 +120,183 @@
         });
 
         app.controller('mainCtrl', function ($scope, $http) {
-
-            let obj = {}; // Stores all the questions 
-            let rowOptions = []; // Stores row options
-            let columnOptions = []; // Stores column options
-
-            // Compares question name
-            var question;
-
-            // HTTP GET request to backend.
-            // Retrieves JSON obj of questions
-            $http.get("/responses").then(function (response) {
-            console.log(response);
-            $scope.questions = response.data.Questions;
-            obj = $scope.questions; 
-            }).then(() => {
-                // Sorts row and column options
-                obj.forEach((item, index, array) => {
-                    columnOptions[index] = item.columns.map(element => {
-                        return element
-                    });
-                    rowOptions[index] = item.rows.map(element => {
-                        return element;
-                    });
-                });
-                console.log(rowOptions);
-            }).catch(function(err){
-                alert(err.message);
-            });
             
 
+            let obj = {}; // Stores all the questions 
+            // let rowOptions = []; // Stores row options
+            let data = [4];
+            let charts = [4];
+            let options = [4];
+            $scope.questions = ['chart1', 'chart2', "chart3", 'chart4']; //Default
+
+            setInterval(function(){
+
+                drawChart();
+                $scope.update();
+            }, 5000);
+        
+            // HTTP GET request to backend.
+            // Retrieves JSON obj of questions
+            $scope.update = function() {
+                $http.get("/responses").then(function (response) {
+                    console.log(response);
+                    obj = response.data.Questions; 
+                }).then(() => {
+                    // Sorts row and column options
+                    obj.Age.forEach((item, index, array) => {
+                        data[0].setValue(index, 1, item);
+                    });
+                    obj.Distance.forEach((item, index, array) => {
+                        data[1].setValue(index, 1, item[0]);
+                        data[1].setValue(index, 2, item[1]);
+                        data[1].setValue(index, 3, item[2]);
+                        data[1].setValue(index, 4, item[3]);
+                    });
+                    obj.Knowledge.forEach((item, index, array) => {
+                        data[2].setValue(index, 1, item[0]);
+                        data[2].setValue(index, 2, item[1]);
+                        data[2].setValue(index, 3, item[2]);
+                    });
+                    obj.Rating.forEach((item, index, array) => {
+                        data[3].setValue(index, 1, item[0]);
+                        data[3].setValue(index, 2, item[1]);
+                        data[3].setValue(index, 3, item[2]);
+                    });
+
+                    drawChart();
+                }).catch(function(err){
+                    alert(err.message);
+                });
+            }
+
+            $scope.updateData = function() {
+
+            }
+           
             // Draws a chart.
             $scope.$on('ngRepeatFinished', (ngRepeatFinishedEvent) => {
+                
+                //init all data
+                for (let i = 0; i < 4; i++) {
+                    data[i] = new google.visualization.DataTable();
+                }
 
-                obj.forEach((item, index, array) => {
-                    // Create the data table.
-                    var data = new google.visualization.DataTable();
+                // Add columns and rows for first questino
+                data[0].addColumn('string', 'option');
+                data[0].addColumn('number', 'count');
 
-                    // Define row options
-                    columnOptions[index].forEach(element => {
-                        data.addColumn(element[0], element[1]);
-                    });
-                    
-                    // Define row options
-                    rowOptions[index].forEach(element => {
-                        console.log(element);
-                        data.addRow(element);
-                    });
-                    
-                    // // Set chart options
-                    var options = {'title': obj[index].Name,
-                       'width':500,
-                       'height':300,
-                        'backgroundColor': '#f9f9f9'};
+                data[0].addRow(["18-below", 1]);
+                data[0].addRow(["19-24", 0]);
+                data[0].addRow(["25-34", 0]);
+                data[0].addRow(["35-44", 0]);
+                data[0].addRow(["45-54", 0]);
+                data[0].addRow(["55-above", 0]);
 
-                    var chart;
+                // Add columns and rows for second questino
+                data[1].addColumn("string", "Age");
+                data[1].addColumn("number", "<15 min");
+                data[1].addColumn("number", "15-30 min");
+                data[1].addColumn("number", "30-60 min");
+                data[1].addColumn("number", ">60 min");
 
-                    // Only displaying four questions 
-                    if(index == 0 || index == 3) {
-                        chart = new google.visualization.PieChart(document.getElementById('object-' + index));
-                        chart.draw(data, options);
-                    } else if (index == 1 || index == 2){
-                        chart = new google.visualization.BarChart(document.getElementById('object-' + index));
-                        chart.draw(data, options);
-                    } else {
-                        console.log("Invalid Index");
-                    }
-                });
+                data[1].addRow(["18-below", 1, 0, 0, 0]);
+                data[1].addRow(["19-24", 0, 0, 0, 0]);
+                data[1].addRow(["25-34", 0, 0, 0, 0]);
+                data[1].addRow(["35-44", 0, 0, 0, 0]);
+                data[1].addRow(["45-54", 0, 0, 0, 0]);
+                data[1].addRow(["55-above", 0, 0, 0, 0]);
+
+                // Add columns and rows for third questino
+                data[2].addColumn("string", "Age");
+                data[2].addColumn("number", "Yes");
+                data[2].addColumn("number", "No");
+                data[2].addColumn("number", "I do not wish to answer");
+
+                data[2].addRow(["18-below", 1, 0, 0, ]);
+                data[2].addRow(["19-24", 0, 0, 0, ]);
+                data[2].addRow(["25-34", 0, 0, 0, ]);
+                data[2].addRow(["35-44", 0, 0, 0, ]);
+                data[2].addRow(["45-54", 0, 0, 0, ]);
+                data[2].addRow(["55-above", 0, 0, 0, ]);
+
+                // Add columns and rows for fourth questino
+                data[3].addColumn("string", "Age");
+                data[3].addColumn("number", "Yes");
+                data[3].addColumn("number", "Yes");
+                data[3].addColumn("number", "Most likely yes");
+                
+
+                data[3].addRow(["18-below", 1, 0, 0, ]);
+                data[3].addRow(["19-24", 0, 0, 0, ]);
+                data[3].addRow(["25-34", 0, 0, 0, ]);
+                data[3].addRow(["35-44", 0, 0, 0, ]);
+                data[3].addRow(["45-54", 0, 0, 0, ]);
+                data[3].addRow(["55-above", 0, 0, 0, ]);
+                
+                //Set options
+
+                options[0] = {
+                    'title': "What is your age?",
+                    'width':500,
+                    'height':300,  
+                    animation:{
+                    duration: 1000,
+                    easing: 'out',
+                    },
+
+                };
+
+                options[1] = {
+                    'title': "How far away do you live to the nearest hospital?",
+                    'width':500,
+                    'height':300,
+                    animation:{
+                    duration: 1000,
+                    easing: 'out',}
+                };
+
+                options[2] = {
+                    'title': "Have you known anyone who has had cancer?",
+                    'width':500,
+                    'height':300,
+                    animation:{
+                    duration: 1000,
+                    easing: 'out',}
+                };
+
+                options[3] = {
+                    'title': "Do you find value in a software that provides patients with the ability to update their quality of life for doctors to monitor?",
+                    'width':500,
+                    'height':300,
+                    animation:{
+                    duration: 1000,
+                    easing: 'out',}
+                };
+
+                // Draw Charts
+                charts[0] = new google.visualization.PieChart(document.getElementById('object-' + 0));
+                charts[0].draw(data[0], options[0]);
+                charts[1] = new google.visualization.BarChart(document.getElementById('object-' + 1));
+                charts[1].draw(data[1], options[1]);
+                charts[2] = new google.visualization.BarChart(document.getElementById('object-' + 2));
+                charts[2].draw(data[2], options[2]);
+                charts[3] = new google.visualization.ColumnChart(document.getElementById('object-' + 3));
+                charts[3].draw(data[3], options[3]);
             });
+
+            function drawChart() {
+                // for(let i = 0; i < 4; i++) {
+                //     google.visualization.events.addListener(chart, 'ready',
+                //     function() {
+                //     });
+                // }
+                charts[0].draw(data[0], options[0]);
+                charts[1].draw(data[1], options[1]);
+                charts[2].draw(data[2], options[2]);
+                charts[3].draw(data[3], options[3]);
+
+            }
+
         });
     </script>
 
